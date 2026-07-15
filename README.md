@@ -1,6 +1,22 @@
 ## Problem 1: Animal
 
-Here's a beginner-friendly version of the same assignment — simpler domain, fewer moving parts, but it still tests the core decision-making skill.
+## Sample Output:
+--- Dog ---
+Buddy is eating
+Buddy says Woof!
+Buddy is sleeping
+Buddy is swimming
+
+--- Cat ---
+Whiskers is eating
+Whiskers says Meow!
+Whiskers is sleeping
+
+--- Bird ---
+Tweety is eating
+Tweety says Tweet!
+Tweety is sleeping
+Tweety is flying
 
 ---
 
