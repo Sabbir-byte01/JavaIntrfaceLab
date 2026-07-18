@@ -1,0 +1,193 @@
+abstract class Payment {
+
+    protected String transactionId;
+    private static int counter = 1;
+
+    Payment() {
+        transactionId = generateTransactionId();
+    }
+
+    // Shared Transaction ID Generator
+    protected String generateTransactionId() {
+        return "TXN-" + System.currentTimeMillis() + "-" + (counter++);
+    }
+
+    // Shared Validation Logic
+    protected void validateAccountDetails() {
+        System.out.println("Validating account details...");
+    }
+
+    // Abstract Methods
+    abstract void authorize(double amount);
+
+    abstract void processPayment(double amount);
+
+    abstract String generateReceipt();
+}
+
+// Optional Capabilities
+interface Refundable {
+    void refund(double amount);
+}
+
+interface RecurringBillable {
+    void setupRecurring(double amount);
+}
+
+interface LoyaltyPointsEarner {
+    void earnPoints(int points);
+}
+
+// Credit Card Payment
+class CreditCardPayment extends Payment
+        implements Refundable, RecurringBillable, LoyaltyPointsEarner {
+
+    @Override
+    void authorize(double amount) {
+        System.out.println("Credit Card authorized for $" + amount);
+    }
+
+    @Override
+    void processPayment(double amount) {
+        validateAccountDetails();
+        System.out.println("Credit Card payment processed: $" + amount);
+    }
+
+    @Override
+    String generateReceipt() {
+        return "Receipt: Credit Card | Transaction ID: " + transactionId;
+    }
+
+    @Override
+    public void refund(double amount) {
+        System.out.println("Refunded $" + amount + " to Credit Card");
+    }
+
+    @Override
+    public void setupRecurring(double amount) {
+        System.out.println("Recurring Credit Card payment set: $" + amount);
+    }
+
+    @Override
+    public void earnPoints(int points) {
+        System.out.println(points + " loyalty points earned.");
+    }
+}
+
+// PayPal Payment
+class PayPalPayment extends Payment
+        implements Refundable, RecurringBillable, LoyaltyPointsEarner {
+
+    @Override
+    void authorize(double amount) {
+        System.out.println("PayPal authorized for $" + amount);
+    }
+
+    @Override
+    void processPayment(double amount) {
+        System.out.println("PayPal payment processed: $" + amount);
+    }
+
+    @Override
+    String generateReceipt() {
+        return "Receipt: PayPal | Transaction ID: " + transactionId;
+    }
+
+    @Override
+    public void refund(double amount) {
+        System.out.println("Refunded $" + amount + " to PayPal");
+    }
+
+    @Override
+    public void setupRecurring(double amount) {
+        System.out.println("Recurring PayPal payment set: $" + amount);
+    }
+
+    @Override
+    public void earnPoints(int points) {
+        System.out.println(points + " loyalty points earned.");
+    }
+}
+
+// Bank Transfer Payment
+class BankTransferPayment extends Payment {
+
+    @Override
+    void authorize(double amount) {
+        System.out.println("Bank Transfer authorized for $" + amount);
+    }
+
+    @Override
+    void processPayment(double amount) {
+        validateAccountDetails();
+        System.out.println("Bank Transfer processed: $" + amount);
+    }
+
+    @Override
+    String generateReceipt() {
+        return "Receipt: Bank Transfer | Transaction ID: " + transactionId;
+    }
+}
+
+// Crypto Payment
+class CryptoPayment extends Payment {
+
+    @Override
+    void authorize(double amount) {
+        System.out.println("Crypto payment authorized for $" + amount);
+    }
+
+    @Override
+    void processPayment(double amount) {
+        System.out.println("Crypto payment processed: $" + amount);
+    }
+
+    @Override
+    String generateReceipt() {
+        return "Receipt: Cryptocurrency | Transaction ID: " + transactionId;
+    }
+}
+
+// Main Class
+public class Main {
+
+    public static void main(String[] args) {
+
+        CreditCardPayment credit = new CreditCardPayment();
+        PayPalPayment paypal = new PayPalPayment();
+        BankTransferPayment bank = new BankTransferPayment();
+        CryptoPayment crypto = new CryptoPayment();
+
+        System.out.println("=== Credit Card ===");
+        credit.authorize(1000);
+        credit.processPayment(1000);
+        System.out.println(credit.generateReceipt());
+        credit.refund(200);
+        credit.setupRecurring(500);
+        credit.earnPoints(50);
+
+        System.out.println();
+
+        System.out.println("=== PayPal ===");
+        paypal.authorize(800);
+        paypal.processPayment(800);
+        System.out.println(paypal.generateReceipt());
+        paypal.refund(100);
+        paypal.setupRecurring(300);
+        paypal.earnPoints(40);
+
+        System.out.println();
+
+        System.out.println("=== Bank Transfer ===");
+        bank.authorize(2000);
+        bank.processPayment(2000);
+        System.out.println(bank.generateReceipt());
+
+        System.out.println();
+
+        System.out.println("=== Cryptocurrency ===");
+        crypto.authorize(5000);
+        crypto.processPayment(5000);
+        System.out.println(crypto.generateReceipt());
+    }
+}
